@@ -1,0 +1,79 @@
+workflows:
+  android-release:
+    name: Ummat Foundation — Android
+    max_build_duration: 60
+    instance_type: linux_x2
+    environment:
+      node: 20
+      groups:
+        # Create this group in Codemagic → Teams → Environment variables.
+        # Add: CM_KEYSTORE (upload the .keystore file), CM_KEYSTORE_PASSWORD,
+        # CM_KEY_ALIAS, CM_KEY_PASSWORD. Without this group the build still
+        # runs and produces an UNSIGNED release artifact.
+        - android_signing
+    scripts:
+      - name: Install dependencies
+        script: npm ci
+      - name: Build web app
+        script: npm run build
+      - name: Sync Capacitor (android)
+        script: npx cap sync android
+      - name: Write signing config (skipped if CM_KEYSTORE isn't set)
+        script: |
+          if [ -n "$CM_KEYSTORE" ]; then
+            echo $CM_KEYSTORE | base64 --decode > /tmp/keystore.jks
+            cat > android/keystore.properties <<EOF
+          storeFile=/tmp/keystore.jks
+          storePassword=$CM_KEYSTORE_PASSWORD
+          keyAlias=$CM_KEY_ALIAS
+          keyPassword=$CM_KEY_PASSWORD
+          EOF
+          fi
+      - name: Build Android App Bundle
+        script: |
+          cd android
+          ./gradlew bundleRelease
+    artifacts:
+      - android/app/build/outputs/**/*.aab
+      - android/app/build/outputs/**/*.apk
+    publishing:
+      email:
+        recipients:
+          - waz.scibot@natzen.shop
+
+  ios-release:
+    name: Ummat Foundation — iOS
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      node: 20
+      xcode: latest
+      cocoapods: default
+      groups:
+        # Create this group in Codemagic → Teams → Environment variables,
+        # with an App Store Connect API key (needs your own Apple Developer
+        # Program membership) so Codemagic can auto-manage signing.
+        - ios_signing
+    scripts:
+      - name: Install dependencies
+        script: npm ci
+      - name: Build web app
+        script: npm run build
+      - name: Sync Capacitor (ios)
+        script: npx cap sync ios
+      - name: Install CocoaPods
+        script: |
+          cd ios/App
+          pod install
+      - name: Set up code signing
+        script: |
+          xcode-project use-profiles
+      - name: Build ipa
+        script: |
+          xcode-project build-ipa --workspace ios/App/App.xcworkspace --scheme App
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      email:
+        recipients:
+          - waz.scibot@natzen.shop

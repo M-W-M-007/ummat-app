@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(winget install --id OpenJS.NodeJS.LTS -e --accept-source-agreements --accept-package-agreements --silent)",
+      "Bash(npx vercel *)",
+      "Bash(node -e ' *)",
+      "Bash(timeout 25 npx supabase projects list)",
+      "Bash(timeout 20 npx supabase login)",
+      "Bash(npm -v)",
+      "Bash(npm install *)",
+      "Bash(npx cap *)",
+      "Bash(git init *)"
+    ]
+  }
+}

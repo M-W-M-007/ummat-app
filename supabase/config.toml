@@ -1,0 +1,20 @@
+project_id = "apiykenltsgeebhmxwqz"
+
+# create-order is a public endpoint for the /donate page: no Supabase JWT is
+# required (it validates input and rate-limits by IP itself).
+[functions.create-order]
+verify_jwt = false
+
+# Razorpay calls the webhook with its own signature (no Supabase JWT), so JWT
+# verification must be off — the function verifies the Razorpay HMAC instead.
+[functions.razorpay-webhook]
+verify_jwt = false
+
+# Public read for the /donate success screen — no Supabase JWT required.
+[functions.order-status]
+verify_jwt = false
+
+# Public endpoint for the donor portal (/my): donors aren't authenticated yet
+# when resolving/creating their account, so no Supabase JWT is required.
+[functions.donor-auth]
+verify_jwt = false

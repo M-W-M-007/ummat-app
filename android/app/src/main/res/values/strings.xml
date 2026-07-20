@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Ummat Foundation</string>
+    <string name="title_activity_main">Ummat Foundation</string>
+    <string name="package_name">org.ummatfoundation.app</string>
+    <string name="custom_url_scheme">org.ummatfoundation.app</string>
+</resources>
