@@ -30,9 +30,9 @@ jobs:
       - name: Sync Capacitor (ios)
         run: npx cap sync ios
 
-      - name: Install CocoaPods
-        working-directory: ios/App
-        run: pod install
+      # Capacitor 8 uses Swift Package Manager by default (no Podfile /
+      # .xcworkspace is generated) — Xcode resolves the SPM packages itself
+      # during the archive step below, so no separate install step is needed.
 
       # Full signing needs an Apple Developer Program membership ($99/yr).
       # Add IOS_CERTIFICATE_BASE64 (a .p12 export), IOS_CERTIFICATE_PASSWORD,
@@ -66,7 +66,7 @@ jobs:
         if: ${{ env.SIGNED == '1' }}
         working-directory: ios/App
         run: |
-          xcodebuild -workspace App.xcworkspace -scheme App -configuration Release \
+          xcodebuild -project App.xcodeproj -scheme App -configuration Release \
             -archivePath "$RUNNER_TEMP/App.xcarchive" \
             DEVELOPMENT_TEAM="${{ secrets.IOS_TEAM_ID }}" archive
 
@@ -74,7 +74,7 @@ jobs:
         if: ${{ env.SIGNED != '1' }}
         working-directory: ios/App
         run: |
-          xcodebuild -workspace App.xcworkspace -scheme App -configuration Release \
+          xcodebuild -project App.xcodeproj -scheme App -configuration Release \
             -archivePath "$RUNNER_TEMP/App.xcarchive" \
             CODE_SIGNING_ALLOWED=NO archive
 

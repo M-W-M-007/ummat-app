@@ -35,6 +35,11 @@ jobs:
       - name: Sync Capacitor (android)
         run: npx cap sync android
 
+      # gradlew was scaffolded on Windows, which doesn't preserve the Unix
+      # executable bit — restore it here rather than relying on git file mode.
+      - name: Make gradlew executable
+        run: chmod +x android/gradlew
+
       # Signing is optional: add ANDROID_KEYSTORE_BASE64 / ANDROID_KEYSTORE_PASSWORD /
       # ANDROID_KEY_ALIAS / ANDROID_KEY_PASSWORD as repo secrets (Settings → Secrets
       # and variables → Actions) once you have a real keystore. Until then this
