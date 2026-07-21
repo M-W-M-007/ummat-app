@@ -9,7 +9,17 @@
       "Bash(npm -v)",
       "Bash(npm install *)",
       "Bash(npx cap *)",
-      "Bash(git init *)"
+      "Bash(git init *)",
+      "Bash(git commit *)",
+      "Bash(git branch *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(gh auth *)",
+      "Bash(git add *)",
+      "Bash(where keytool *)",
+      "Bash(keytool -help)",
+      "Bash(node -e \"console.log\\(require\\('crypto'\\).randomBytes\\(18\\).toString\\('base64'\\).replace\\(/[+/=]/g,''\\).slice\\(0,24\\)\\)\")",
+      "Bash(npm run *)"
     ]
   }
 }

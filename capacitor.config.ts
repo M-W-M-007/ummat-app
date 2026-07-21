@@ -10,8 +10,12 @@ const config: CapacitorConfig = {
   // live-mode website whitelist (a bundled capacitor://localhost origin
   // would otherwise trip the same "website does not match registered
   // website(s)" block hit on the web donate page).
+  // Public Play Store app opens straight to the donate page — not the
+  // staff-only "/" admin login. DonatePage links to /my for the donor
+  // portal, so both donor-facing flows stay reachable without ever
+  // surfacing the staff login screen to the public.
   server: {
-    url: 'https://ummat-app-ummat1.vercel.app',
+    url: 'https://ummat-app-ummat1.vercel.app/donate',
     androidScheme: 'https',
   },
 };

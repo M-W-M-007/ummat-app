@@ -29,7 +29,7 @@ const T = {
     save: "Save our number on WhatsApp", again: "Make another donation",
     errName: "Please enter your name.", errPhone: "Please enter a valid 10-digit mobile number.",
     errAmt: "Amount must be between ₹10 and ₹5,00,000.", errPay: "Payment could not be started. Please try again.",
-    lang: "हिंदी",
+    lang: "हिंदी", myDonations: "My Donations",
   },
   hi: {
     tag: "उम्मत फाउंडेशन", title: "दान करें",
@@ -45,7 +45,7 @@ const T = {
     save: "WhatsApp पर हमारा नंबर सेव करें", again: "एक और दान करें",
     errName: "कृपया अपना नाम दर्ज करें।", errPhone: "कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।",
     errAmt: "राशि ₹10 से ₹5,00,000 के बीच होनी चाहिए।", errPay: "भुगतान शुरू नहीं हो सका। कृपया पुनः प्रयास करें।",
-    lang: "English",
+    lang: "English", myDonations: "मेरे दान",
   },
 };
 
@@ -188,9 +188,14 @@ export default function DonatePage() {
               <div style={{ fontSize: 22, fontWeight: 800, marginTop: 2 }}>{t.title}</div>
             </div>
           </div>
-          <button onClick={() => setLang(lang === "en" ? "hi" : "en")} style={{ background: "none", border: "1px solid rgba(255,255,255,0.35)", color: "#fff", borderRadius: 999, padding: "5px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
-            {t.lang}
-          </button>
+          <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+            <a href="/my" style={{ background: "none", border: "1px solid rgba(255,255,255,0.35)", color: "#fff", borderRadius: 999, padding: "5px 12px", fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
+              {t.myDonations}
+            </a>
+            <button onClick={() => setLang(lang === "en" ? "hi" : "en")} style={{ background: "none", border: "1px solid rgba(255,255,255,0.35)", color: "#fff", borderRadius: 999, padding: "5px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+              {t.lang}
+            </button>
+          </div>
         </div>
         <div style={{ fontSize: 13, color: "#DDEAE3", marginTop: 10, lineHeight: 1.5 }}>{t.intro}</div>
       </div>
